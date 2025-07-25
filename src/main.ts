@@ -9,7 +9,11 @@ async function bootstrap() {
 
   // Configurar CORS para permitir SSE
   app.enableCors({
-    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    origin: [
+      'http://localhost:5173', 
+      'http://localhost:3000',
+      process.env.FRONTEND_URL || 'https://trae-garimpei-6k65.vercel.app'
+    ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
@@ -20,6 +24,8 @@ async function bootstrap() {
     ],
   });
 
-  await app.listen(3000);
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

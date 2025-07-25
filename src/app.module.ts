@@ -21,13 +21,14 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 7000,
-      username: 'postgres',
-      password: 'root',
-      database: 'garimpeidb',
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT || '7000'),
+      username: process.env.DB_USERNAME || 'postgres',
+      password: process.env.DB_PASSWORD || 'root',
+      database: process.env.DB_DATABASE || 'garimpeidb',
       entities: [Buyer, Seller, Clothing, Bid, Store, Image],
-      synchronize: true, // true só para desenvolvimento!
+      synchronize: process.env.NODE_ENV !== 'production',
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }),
     BuyerModule,
     SellerModule,

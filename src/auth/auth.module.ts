@@ -13,7 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forFeature([Buyer, Seller]),
     PassportModule,
     JwtModule.register({
-      secret: 'SUA_CHAVE_SECRETA', // Troque por uma variável de ambiente em produção
+      secret: process.env.JWT_SECRET || 'SUA_CHAVE_SECRETA',
       signOptions: { expiresIn: '1d' },
     }),
   ],
